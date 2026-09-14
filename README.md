@@ -2,7 +2,11 @@
 
 A low-latency, zero-dependency system to control any PC browser game using a smartphone as a touch gamepad (directly in the mobile browser or installed as an Android PWA), operating seamlessly across local networks (e.g. PC via LAN, smartphone via Wi-Fi).
 
-Developed by **wichtel.art**.
+Developed by **[wichtel.art](https://wichtel.art)** (Torsten Wich Heiter).
+
+<p align="center">
+  <img src="assets/gamepad-landscape.png" alt="Mobile Web Gamepad Landscape Controller" width="850">
+</p>
 
 ---
 
