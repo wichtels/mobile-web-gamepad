@@ -1,0 +1,38 @@
+{
+  "name": "mobile-web-gamepad",
+  "version": "1.0.0",
+  "description": "Turn any smartphone into an ultra-low latency Wi-Fi gamepad with precision 256-level virtual joystick and responsive action buttons for local HTML5/Canvas games.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --check server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wichtels/mobile-web-gamepad.git"
+  },
+  "keywords": [
+    "gamepad",
+    "controller",
+    "touchscreen",
+    "websocket",
+    "joystick",
+    "analog-stick",
+    "html5-games",
+    "multiplayer",
+    "canvas",
+    "mobile-controller",
+    "low-latency",
+    "wichtel-art"
+  ],
+  "author": "Torsten Wich Heiter <https://wichtel.art>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wichtels/mobile-web-gamepad/issues"
+  },
+  "homepage": "https://github.com/wichtels/mobile-web-gamepad#readme",
+  "dependencies": {
+    "qrcode": "^1.5.4",
+    "ws": "^8.21.3"
+  }
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[DEMO] Cyber Rover Proving Grounds</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 
+      ========================================================================
+      DEMO / REFERENCE GAME (DO NOT COPY FOR NEW GAMES!)
+      This game serves solely as an integration example for GamepadBridge.
+      New games only need to include: <script src="/network.js"></script>
+      ========================================================================
+    -->
+    <div id="game-container">
+        <!-- 60 FPS HTML5 Canvas -->
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- Top Telemetry & HUD Bar -->
+        <div id="hud-bar">
+            <!-- Left Group: Rover & Battery -->
+            <div class="hud-group">
+                <div class="hud-item" style="color: #ffe600;">[DEMO GAME]</div>
+                <div class="hud-item">ROVER: <span id="rover-model">CYBER-ROVER X4</span></div>
+                <div class="health-bar-container" title="Hull / Battery">
+                    <div id="health-bar" class="health-bar-fill"></div>
+                </div>
+                <div class="hud-item">NITRO: <span id="nitro-val" style="color: #ffe600;">100%</span></div>
+            </div>
+
+            <!-- Middle Group: Speedometer & Jump Height -->
+            <div class="hud-group">
+                <div class="hud-item">SPEED: <span id="speed-val">0</span> <small style="font-size: 11px; color:#8fa0b5;">KM/H</small></div>
+                <div class="hud-item">JUMP: <span id="jump-val">0.0</span> <small style="font-size: 11px; color:#8fa0b5;">M</small></div>
+                <div class="hud-item">SCORE: <span id="score-val">00000</span></div>
+            </div>
+
+            <!-- Right Group: Controller Status & Pairing -->
+            <div class="hud-group">
+                <div id="controller-status">
+                    <div id="status-dot" class="status-dot"></div>
+                    <span id="status-text">Waiting for controller...</span>
+                    <span id="ping-display" style="display: none; color: #00ff66; font-size: 11px; margin-left: 4px;"></span>
+                </div>
+                <button id="btn-toggle-qr" class="btn-hud">📱 QR Code</button>
+                <a href="/" class="btn-hud" style="text-decoration: none; display: inline-flex; align-items: center;">🏠 Hub</a>
+            </div>
+        </div>
+
+        <!-- Pairing & QR-Code Modal -->
+        <div id="pairing-modal">
+            <h2>Connect Mobile Controller</h2>
+            <p>
+                Scan this QR code with your smartphone (on the same Wi-Fi network) to control 
+                the rover with your virtual gamepad:
+            </p>
+            
+            <div class="qr-box">
+                <img id="qr-image" src="" alt="Controller QR Code">
+            </div>
+
+            <div class="url-display" id="controller-url-display">
+                Loading IP address...
+            </div>
+
+            <p style="font-size: 12px; color: #718096; margin-bottom: 16px;">
+                💡 <strong>Rover Controls:</strong><br>
+                👉 <strong>Right Thumb (D-Pad & 256-Level Mini-Stick):</strong> 360° analog steering & smooth throttle | ▲ Up | ▼ Down | ◀ Left | ▶ Right<br>
+                👈 <strong>Left Thumb (Action Buttons):</strong> [A] Cannon | [B] Jump | [C] Camera Switch | [X] Nitro | L1/R1 Drift
+            </p>
+
+            <div class="pairing-actions">
+                <button id="btn-start-game" class="btn-primary">Start Game / Close</button>
+            </div>
+        </div>
+
+        <!-- Bottom Controls Hint -->
+        <div id="controls-hint">
+            <span>🎮 <strong>Gamepad:</strong> Right Hand: 256-Level Stick & D-Pad | Left Hand: [A] Cannon | [B] Jump | [C] Camera | [X] Nitro | L1/R1 Drift</span>
+            <span>⌨️ <strong>Keyboard:</strong> WASD = Drive | Enter/J = Cannon | Space/K = Jump | C = Camera | Shift/E = Nitro</span>
+        </div>
+    </div>
+
+    <!-- Universal Gamepad Bridge (from /network.js) & Rover Game Engine -->
+    <script src="/network.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>

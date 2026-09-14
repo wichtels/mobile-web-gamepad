@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#07090e">
+    <title>Gamepad Controller</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="controller.css">
+</head>
+<body>
+    <div id="controller-wrapper">
+        <!-- LEFT PANEL: ACTION BUTTONS -->
+        <div class="flank-panel left-flank">
+            <div class="flank-header">
+                <button id="btn-l1" class="shoulder-btn" data-btn="l1">L1</button>
+                <button id="btn-select" class="menu-pill-btn" data-btn="select">SELECT</button>
+                <div class="live-badge">
+                    <div id="conn-dot" class="dot"></div>
+                </div>
+            </div>
+
+            <!-- Action Buttons Diamond Cluster -->
+            <div class="action-cluster">
+                <button class="action-btn btn-y" data-btn="y">
+                    <span class="key-lbl">Y</span>
+                </button>
+
+                <div class="action-mid-row">
+                    <button class="action-btn btn-x" data-btn="x">
+                        <span class="key-lbl">X</span>
+                    </button>
+                    <button class="action-btn btn-c" data-btn="c">
+                        <span class="key-lbl">C</span>
+                    </button>
+                    <button class="action-btn btn-a" data-btn="a">
+                        <span class="key-lbl">A</span>
+                    </button>
+                </div>
+
+                <button class="action-btn btn-b" data-btn="b">
+                    <span class="key-lbl">B</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- CENTER AREA: SPACER -->
+        <div class="center-spacer"></div>
+
+        <!-- RIGHT PANEL: D-PAD -->
+        <div class="flank-panel right-flank">
+            <div class="flank-header right-header">
+                <button id="btn-start" class="menu-pill-btn" data-btn="start">START</button>
+                <button id="btn-fs" class="menu-icon-btn" title="Fullscreen">⛶</button>
+                <button id="btn-r1" class="shoulder-btn" data-btn="r1">R1</button>
+            </div>
+
+            <!-- D-PAD CONTAINER -->
+            <div class="dpad-container" id="giant-dpad">
+                <div class="dpad-petal dpad-up" data-dir="up">
+                    <span class="arrow-sym">▲</span>
+                </div>
+
+                <div class="dpad-middle-row">
+                    <div class="dpad-petal dpad-left" data-dir="left">
+                        <span class="arrow-sym">◀</span>
+                    </div>
+
+                    <div class="dpad-center-hub" id="dpad-center-hub">
+                        <div class="mini-stick-base">
+                            <div class="mini-stick-nub" id="mini-stick-nub">
+                                <div class="nub-center-dot"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dpad-petal dpad-right" data-dir="right">
+                        <span class="arrow-sym">▶</span>
+                    </div>
+                </div>
+
+                <div class="dpad-petal dpad-down" data-dir="down">
+                    <span class="arrow-sym">▼</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Portrait Warning -->
+    <div id="portrait-warning">
+        <div class="icon">📱 ➔ 🔄</div>
+        <h2>Rotate Device</h2>
+        <p style="color: #94a3b8; margin-top: 10px;">
+            Please rotate your device to landscape mode.
+        </p>
+    </div>
+
+    <script src="controller.js"></script>
+</body>
+</html>

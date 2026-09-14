@@ -1,0 +1,444 @@
+:root {
+    --bg-dark: #07090e;
+    --pad-bg: #131a26;
+    --pad-active: #1e2b40;
+    --cyan: #00f0ff;
+    --magenta: #ff0055;
+    --yellow: #ffe600;
+    --green: #00ff66;
+    --orange: #ff8800;
+    --text-muted: #64748b;
+    --font-mono: 'Courier New', Courier, monospace;
+    --btn-size: clamp(74px, 19vh, 84px);
+    --btn-gap: 9px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    touch-action: none;
+}
+
+body, html {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--bg-dark);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #fff;
+}
+
+#controller-wrapper {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 0;
+    gap: 0;
+    background: radial-gradient(circle at center, #101624 0%, #05070a 100%);
+    overflow: hidden;
+}
+
+/* ===================================================
+   1. PANELS (LEFT & RIGHT) - FLUSH TO OUTER EDGES
+   =================================================== */
+.flank-panel {
+    width: auto;
+    min-width: 250px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 10;
+    padding: 0;
+    margin: 0;
+}
+.flank-panel.left-flank {
+    align-items: flex-start;
+}
+.flank-panel.right-flank {
+    align-items: flex-end;
+}
+
+.flank-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0;
+    margin: 0;
+}
+.flank-header.right-header {
+    justify-content: flex-end;
+}
+
+.shoulder-btn {
+    background: #182232;
+    border: none;
+    color: #94a3b8;
+    padding: 10px 22px;
+    border-radius: 14px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    transition: all 0.08s ease;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+    cursor: pointer;
+}
+#btn-l1 {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+#btn-r1 {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.shoulder-btn.active {
+    background: var(--cyan);
+    color: #000;
+    box-shadow: 0 0 18px var(--cyan);
+    transform: translateY(2px);
+}
+
+.menu-pill-btn {
+    background: #151d2c;
+    border: none;
+    color: #8fa0b5;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 8px 14px;
+    border-radius: 12px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    cursor: pointer;
+}
+.menu-pill-btn.active {
+    background: var(--cyan);
+    color: #000;
+}
+
+.menu-icon-btn {
+    background: #151d2c;
+    border: none;
+    color: #cbd5e1;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    cursor: pointer;
+}
+
+/* Hide fullscreen toggle button when fullscreen is active */
+:fullscreen #btn-fs,
+:-webkit-full-screen #btn-fs,
+body.is-fullscreen #btn-fs {
+    display: none !important;
+}
+
+.live-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #64748b;
+    margin-left: 6px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ff3344;
+}
+.dot.connected {
+    background: #00ff66;
+    box-shadow: 0 0 8px #00ff66;
+}
+
+/* ===================================================
+   2. ACTION BUTTONS (DIAMOND CLUSTER)
+   =================================================== */
+.action-cluster {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: var(--btn-gap);
+    margin: auto 0;
+    position: relative;
+    padding-left: clamp(16px, 3.8vw, 28px); /* Shifted right for thumb comfort */
+    width: auto;
+}
+
+.action-mid-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: var(--btn-gap);
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.action-btn {
+    width: var(--btn-size);
+    height: var(--btn-size);
+    border-radius: 50%;
+    background: var(--pad-bg);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 2px 4px rgba(255,255,255,0.06), 0 6px 18px rgba(0,0,0,0.6);
+    transition: all 0.05s ease;
+    cursor: pointer;
+}
+.action-btn .key-lbl {
+    font-size: 27px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+/* Y and B aligned mathematically over center C */
+.action-btn.btn-y,
+.action-btn.btn-b {
+    margin-left: calc(var(--btn-size) + var(--btn-gap));
+}
+
+/* Button B (Cyan) */
+.action-btn.btn-b { color: var(--cyan); }
+.action-btn.btn-b.active { background: var(--cyan); color: #000; box-shadow: 0 0 26px var(--cyan); transform: scale(0.92); }
+
+/* Button A (Magenta) */
+.action-btn.btn-a { color: var(--magenta); }
+.action-btn.btn-a.active { background: var(--magenta); color: #fff; box-shadow: 0 0 26px var(--magenta); transform: scale(0.92); }
+
+/* Button C (Purple / Camera Switch) */
+.action-btn.btn-c { color: #d946ef; }
+.action-btn.btn-c.active { background: #d946ef; color: #fff; box-shadow: 0 0 26px #d946ef; transform: scale(0.92); }
+
+/* Button X (Yellow) */
+.action-btn.btn-x { color: var(--yellow); }
+.action-btn.btn-x.active { background: var(--yellow); color: #000; box-shadow: 0 0 26px var(--yellow); transform: scale(0.92); }
+
+/* Button Y (Green) */
+.action-btn.btn-y { color: var(--green); }
+.action-btn.btn-y.active { background: var(--green); color: #000; box-shadow: 0 0 26px var(--green); transform: scale(0.92); }
+
+/* ===================================================
+   3. CENTER SPACER (CLEAN THUMB CLEARANCE)
+   =================================================== */
+.center-spacer {
+    flex: 1;
+    pointer-events: none;
+}
+
+/* ===================================================
+   4. D-PAD (RIGHT THUMB) - FLUSH TO RIGHT SCREEN EDGE
+   =================================================== */
+.dpad-container {
+    position: relative;
+    width: 275px;
+    height: 250px;
+    background: radial-gradient(ellipse at center, #111828 0%, #060910 100%);
+    border: none;
+    border-radius: 36px 0 0 36px;
+    box-shadow: 0 0 35px rgba(0,0,0,0.8), inset 0 0 22px rgba(0, 240, 255, 0.05);
+    margin: auto 0;
+    margin-right: 0;
+    overflow: hidden;
+    align-self: flex-end;
+}
+
+.dpad-petal {
+    background: #141c2b;
+    border: none;
+    color: #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.05s ease;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+    cursor: pointer;
+}
+
+.arrow-sym {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    display: block;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+}
+
+/* UP */
+.dpad-petal.dpad-up {
+    position: absolute;
+    top: 4px;
+    left: calc(50% - 55px);
+    width: 110px;
+    height: 74px;
+    border-radius: 20px 20px 8px 8px;
+}
+
+/* DOWN */
+.dpad-petal.dpad-down {
+    position: absolute;
+    bottom: 4px;
+    left: calc(50% - 55px);
+    width: 110px;
+    height: 74px;
+    border-radius: 8px 8px 20px 20px;
+}
+
+/* MIDDLE ROW: LEFT - HUB - RIGHT (FLUSH TO RIGHT BEZEL) */
+.dpad-middle-row {
+    position: absolute;
+    top: calc(50% - 42px);
+    left: 4px;
+    right: 0px;
+    height: 84px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* LEFT */
+.dpad-petal.dpad-left {
+    width: 90px;
+    height: 84px;
+    border-radius: 20px 8px 8px 20px;
+}
+
+/* RIGHT (TOUCHES SCREEN EDGE) */
+.dpad-petal.dpad-right {
+    width: 95px;
+    height: 84px;
+    border-radius: 10px 0 0 10px;
+}
+
+/* CENTER HUB & MINI-JOYSTICK (INCONSPICUOUS & PRECISE) */
+.dpad-center-hub {
+    width: 120px;
+    height: 120px;
+    z-index: 10;
+    background: #090e17;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.85), 0 0 16px rgba(0,0,0,0.8);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.mini-stick-base {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle, #080c14 0%, #111827 75%, #182236 100%);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.9);
+}
+
+.mini-stick-nub {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 38%, #1f2a3e 0%, #121824 65%, #0a0d14 100%);
+    border: 1.5px solid rgba(255, 255, 255, 0.07);
+    box-shadow: 
+        inset 0 1.5px 2px rgba(255, 255, 255, 0.12),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.7),
+        0 3px 10px rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    touch-action: none;
+    will-change: transform;
+    pointer-events: none;
+    transition: transform 0.06s ease-out;
+}
+
+.mini-stick-nub .nub-center-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #0c111a;
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.8);
+    transition: all 0.1s ease;
+}
+
+.mini-stick-nub.active {
+    border-color: rgba(0, 240, 255, 0.45);
+    box-shadow: 
+        inset 0 1.5px 2px rgba(0, 240, 255, 0.2),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.7),
+        0 0 14px rgba(0, 240, 255, 0.3);
+}
+
+.mini-stick-nub.active .nub-center-dot {
+    background: var(--cyan);
+    border-color: #fff;
+    box-shadow: 0 0 8px var(--cyan);
+}
+
+/* ACTIVE STATE */
+.dpad-petal.active {
+    background: #1e2b40;
+    color: var(--cyan);
+    box-shadow: 0 0 25px var(--cyan);
+    transform: scale(0.96);
+}
+.dpad-petal.active .arrow-sym {
+    filter: drop-shadow(0 0 14px var(--cyan));
+}
+
+/* ===================================================
+   5. PORTRAIT WARNING
+   =================================================== */
+#portrait-warning {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #07090e;
+    color: #fff;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px;
+    z-index: 9999;
+}
+
+#portrait-warning .icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+    animation: rotatePhone 2s infinite ease-in-out;
+}
+
+@keyframes rotatePhone {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(90deg); }
+}
+
+@media (orientation: portrait) {
+    #portrait-warning {
+        display: flex;
+    }
+}

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Web Gamepad Hub</title>
+    <style>
+        :root {
+            --bg-dark: #07090e;
+            --panel-bg: #0e1522;
+            --border-color: rgba(0, 240, 255, 0.2);
+            --cyan: #00f0ff;
+            --magenta: #ff0055;
+            --yellow: #ffe600;
+            --green: #00ff66;
+            --purple: #d946ef;
+            --text-muted: #94a3b8;
+            --font-mono: 'Courier New', Courier, monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at 50% 20%, #111a2e 0%, #06080d 100%);
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+        }
+
+        .container {
+            max-width: 960px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        header h1 {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        header h1 span {
+            color: var(--cyan);
+            text-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-layout { grid-template-columns: 1fr; }
+        }
+
+        .card {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card h2 {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 255, 102, 0.1);
+            border: 1px solid rgba(0, 255, 102, 0.3);
+            color: var(--green);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            width: fit-content;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green);
+        }
+
+        .qr-wrapper {
+            background: #060910;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            margin: 16px 0;
+        }
+
+        .qr-wrapper img {
+            width: 180px;
+            height: 180px;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .url-box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px dashed var(--border-color);
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            color: var(--yellow);
+            font-size: 13px;
+            word-break: break-all;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--cyan);
+            color: #000;
+            font-weight: 900;
+            font-size: 14px;
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            margin-top: 16px;
+            border: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+        }
+
+        .btn-secondary {
+            background: #1e293b;
+            color: #cbd5e1;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: #334155;
+            color: #fff;
+            box-shadow: none;
+        }
+
+        .btn-demo {
+            background: linear-gradient(135deg, #ffe600, #ff8800);
+            color: #000;
+        }
+
+        .btn-demo:hover {
+            box-shadow: 0 0 20px rgba(255, 230, 0, 0.6);
+        }
+
+        .code-box {
+            background: #060910;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--cyan);
+            margin: 12px 0;
+            overflow-x: auto;
+        }
+
+        .demo-tag {
+            display: inline-block;
+            background: rgba(255, 230, 0, 0.15);
+            color: var(--yellow);
+            border: 1px solid rgba(255, 230, 0, 0.4);
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>UNIVERSAL <span>WEB GAMEPAD</span> HUB</h1>
+            <p>Control any PC browser game using your smartphone over local LAN / Wi-Fi</p>
+        </header>
+
+        <div class="grid-layout">
+            <!-- CARD 1: CONNECT CONTROLLER -->
+            <div class="card">
+                <div>
+                    <div class="status-badge">
+                        <div class="status-dot"></div>
+                        <span id="conn-count">SERVER ONLINE & READY</span>
+                    </div>
+
+                    <h2>📱 Mobile Controller</h2>
+                    <p style="color: var(--text-muted); font-size: 14px; line-height: 1.4;">
+                        Scan this QR code with your smartphone on the same Wi-Fi network to launch the full-screen virtual gamepad.
+                    </p>
+
+                    <div class="qr-wrapper">
+                        <img id="qr-image" src="" alt="Controller QR Code">
+                    </div>
+
+                    <div class="url-box" id="controller-url">
+                        Loading network address...
+                    </div>
+                </div>
+
+                <a href="/controller.html" target="_blank" class="btn btn-secondary">
+                    🖥️ Open Controller in Browser Window
+                </a>
+            </div>
+
+            <!-- CARD 2: DEMO GAME & INTEGRATION -->
+            <div class="card">
+                <div>
+                    <div>
+                        <span class="demo-tag">STANDALONE DEMO & REFERENCE GAME</span>
+                    </div>
+                    <h2>🎮 Cyber Rover (Demo Game)</h2>
+                    <p style="color: var(--text-muted); font-size: 14px; line-height: 1.4; margin-bottom: 12px;">
+                        A standalone test game located in <code>example-game/</code>. Demonstrates all 5 action buttons, D-pad directions, the high-precision 256-level analog mini-joystick, 3 camera modes [C], and rumble haptic feedback.
+                    </p>
+
+                    <a href="/example-game/" class="btn btn-demo" style="width: 100%; margin-bottom: 24px;">
+                        🚀 Launch Demo Game (/example-game/)
+                    </a>
+
+                    <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 20px 0;">
+
+                    <h2>⚙️ For Your Own Games / AI Assistants</h2>
+                    <p style="color: var(--text-muted); font-size: 13px; line-height: 1.4;">
+                        Simply include the lightweight bridge script in your HTML game:
+                    </p>
+
+                    <div class="code-box">
+                        &lt;script src="/network.js"&gt;&lt;/script&gt;
+                    </div>
+
+                    <p style="color: var(--text-muted); font-size: 12px;">
+                        Access inputs globally via <code>window.GamepadBridge.inputs</code> (D-Pad, 256-level analog stick, and buttons).
+                    </p>
+                </div>
+
+                <div style="margin-top: 16px;">
+                    <a href="/AI_INTEGRATION_GUIDE.md" target="_blank" class="btn btn-secondary" style="width: 100%;">
+                        📖 View AI_INTEGRATION_GUIDE.md
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            Universal Web Gamepad System • Relay Server Port 3000 • Clean architecture: <code>public/</code> (Core) & <code>example-game/</code> (Demo)
+        </footer>
+    </div>
+
+    <script src="/network.js"></script>
+    <script>
+        async function loadInfo() {
+            try {
+                const res = await fetch('/api/info');
+                const data = await res.json();
+                if (data.qrDataUrl) {
+                    document.getElementById('qr-image').src = data.qrDataUrl;
+                }
+                if (data.controllerUrl) {
+                    document.getElementById('controller-url').textContent = data.controllerUrl;
+                }
+            } catch (e) {
+                console.error('Error loading /api/info:', e);
+            }
+        }
+        loadInfo();
+
+        if (window.GamepadBridge) {
+            window.GamepadBridge.on('connect', ({ count }) => {
+                document.getElementById('conn-count').textContent = `CONTROLLER CONNECTED (${count})`;
+            });
+            window.GamepadBridge.on('disconnect', () => {
+                document.getElementById('conn-count').textContent = 'SERVER ONLINE (NO CONTROLLER)';
+            });
+        }
+    </script>
+</body>
+</html>

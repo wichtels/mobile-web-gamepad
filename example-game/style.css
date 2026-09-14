@@ -1,0 +1,253 @@
+:root {
+    --bg-dark: #07090e;
+    --panel-bg: rgba(13, 17, 23, 0.85);
+    --cyan: #00f0ff;
+    --magenta: #ff0055;
+    --yellow: #ffe600;
+    --green: #00ff66;
+    --border: rgba(0, 240, 255, 0.3);
+    --font-mono: 'Courier New', Courier, monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--bg-dark);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #fff;
+}
+
+#game-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at center, #111726 0%, #06080d 100%);
+}
+
+canvas#gameCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+}
+
+/* Oberes Status- und Telemetrie-HUD */
+#hud-bar {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.hud-group {
+    background: var(--panel-bg);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+    border-radius: 8px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+}
+
+.hud-item {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.hud-item span {
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 16px;
+}
+
+.health-bar-container {
+    width: 140px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.health-bar-fill {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #00ff66, #00f0ff);
+    transition: width 0.2s ease, background 0.3s;
+}
+
+/* Controller-Status Badge */
+#controller-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ff3344;
+    box-shadow: 0 0 8px #ff3344;
+    transition: all 0.3s ease;
+}
+
+.status-dot.connected {
+    background: #00ff66;
+    box-shadow: 0 0 10px #00ff66;
+}
+
+.btn-hud {
+    background: rgba(0, 240, 255, 0.15);
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-hud:hover {
+    background: var(--cyan);
+    color: #000;
+    box-shadow: 0 0 12px var(--cyan);
+}
+
+/* Pairing Modal / QR-Code Overlay */
+#pairing-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(10, 14, 22, 0.95);
+    border: 2px solid var(--cyan);
+    box-shadow: 0 0 40px rgba(0, 240, 255, 0.4);
+    border-radius: 16px;
+    padding: 28px;
+    text-align: center;
+    max-width: 480px;
+    width: 90%;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+#pairing-modal.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -46%) scale(0.96);
+}
+
+#pairing-modal h2 {
+    color: var(--cyan);
+    font-size: 22px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+#pairing-modal p {
+    color: #a0aec0;
+    font-size: 14px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.qr-box {
+    background: #0d1117;
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    border-radius: 12px;
+    padding: 16px;
+    display: inline-block;
+    margin-bottom: 16px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.qr-box img {
+    display: block;
+    width: 220px;
+    height: 220px;
+    border-radius: 8px;
+}
+
+.url-display {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px dashed var(--border);
+    border-radius: 6px;
+    padding: 10px;
+    font-family: var(--font-mono);
+    color: var(--yellow);
+    font-size: 15px;
+    margin-bottom: 16px;
+    word-break: break-all;
+}
+
+.pairing-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--cyan), #0077ff);
+    border: none;
+    color: #000;
+    font-weight: bold;
+    padding: 10px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: transform 0.1s, box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 0 16px var(--cyan);
+    transform: translateY(-1px);
+}
+
+/* Steuerungshinweise am unteren Rand */
+#controls-hint {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--panel-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-size: 12px;
+    color: #8fa0b5;
+    pointer-events: none;
+    display: flex;
+    gap: 18px;
+    z-index: 10;
+}
+
+#controls-hint strong {
+    color: #fff;
+}

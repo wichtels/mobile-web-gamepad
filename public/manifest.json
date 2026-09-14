@@ -1,0 +1,10 @@
+{
+  "name": "Neon Gamepad Controller",
+  "short_name": "Gamepad",
+  "start_url": "/controller.html",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#07090e",
+  "theme_color": "#00f0ff",
+  "description": "Universal virtual gamepad controller for PC browser games"
+}
